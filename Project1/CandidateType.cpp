@@ -19,12 +19,6 @@ using namespace std;
 // Implement all functions in the SAME order
 // as listed in the interface file.
 
-//overloaded equals
-bool CandidateType::operator==(int id) const
-{
-	return (getID() == id);
-}
-
 // Default constructor
 CandidateType::CandidateType()
 {
