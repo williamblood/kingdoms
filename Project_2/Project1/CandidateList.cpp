@@ -9,7 +9,7 @@
 	May 12, 2020
 
 	CS A250
-	Project 1 - Part D
+	Project 2
 */
 
 #include "CandidateList.h"
@@ -19,8 +19,15 @@ using namespace std;
 // Function declarations
 // Same order as in class definition
 
+// friend function overloaded ==
+bool operator==(const CandidateType& obj, int id)
+{
+	return obj.getID() == id;
+}
+
 // constructor
-CandidateList::CandidateList() {}
+CandidateList::CandidateList()
+{ }
 
 // addCandidate
 void CandidateList::addCandidate(const CandidateType& candidate)
@@ -31,12 +38,12 @@ void CandidateList::addCandidate(const CandidateType& candidate)
 // getWinner
 int CandidateList::getWinner() const
 {
-	auto iter = candidates.begin();
-	auto iterEnd = candidates.end();
+	auto iter = candidates.cbegin();
+	auto iterEnd = candidates.cend();
 	
-	int idStore{ 0 }, 
-		top{ 0 };
-
+	int idStore = 0;	
+	int	top = 0;		
+						
 	for (iter; iter != iterEnd; ++iter)
 	{
 		if (iter->getTotalVotes() > top)
@@ -57,14 +64,14 @@ bool CandidateList::isEmpty() const
 // searchCandidate(public)
 bool CandidateList::searchCandidate(int id) const
 {
-	auto iter = candidates.begin();
+	auto iter = candidates.cbegin();
 	return searchCandidate(id, iter); 
 }
 
 // printCandidateName
 void CandidateList::printCandidateName(int id) const
 {
-	auto iter = candidates.begin();
+	auto iter = candidates.cbegin();
 	if (searchCandidate(id, iter))
 	{
 		iter->printName();
@@ -74,20 +81,19 @@ void CandidateList::printCandidateName(int id) const
 // printAllCandidates
 void CandidateList::printAllCandidates() const
 {
-	auto iter = candidates.begin();
+	auto iter = candidates.cbegin();
 	auto iterEnd = candidates.end();
 	for(iter; iter != iterEnd; ++iter)
 	{
 		iter->printCandidateInfo();
 		std::cout << endl;
 	}
-	
 }
 
 // printKingdomVotes
 void CandidateList::printKingdomVotes(int id, int index) const
 {
-	auto iter = candidates.begin();
+	auto iter = candidates.cbegin();
 	if (searchCandidate(id, iter))
 	{
 		std::cout << "    *" << right << setw(3)
@@ -99,7 +105,7 @@ void CandidateList::printKingdomVotes(int id, int index) const
 // printCandidateTotalVotes
 void CandidateList::printCandidateTotalVotes(int id) const
 {
-	auto iter = candidates.begin();
+	auto iter = candidates.cbegin();
 	if (searchCandidate(id, iter))
 	{			
 		std::cout << "    => Total votes: "
@@ -109,6 +115,76 @@ void CandidateList::printCandidateTotalVotes(int id) const
 
 // printFinalResults
 void CandidateList::printFinalResults() const
+{
+	printHeader();
+
+	auto winner = candidates.cbegin();
+	auto iterEnd = candidates.cend();
+	int prevHighestVoteCount = 0;
+
+	for(winner; winner != iterEnd; ++winner)
+	{
+		int prevVoteCount = winner->getTotalVotes();
+	
+		if (prevVoteCount > prevHighestVoteCount)
+		{
+			prevHighestVoteCount = prevVoteCount;
+		}
+	}
+	
+	++prevHighestVoteCount;
+
+	int candidateCount = static_cast<int>(candidates.size());
+
+	for (int pos = 1; pos <= candidateCount; ++pos)
+	{
+		auto iter = candidates.cbegin();
+		int highestVoteCount = 0;
+	
+		for(iter; iter != iterEnd ; ++iter)
+		{
+			int tempVotes = iter->getTotalVotes();
+	
+			if (tempVotes > highestVoteCount - 1 &&
+				tempVotes < prevHighestVoteCount)
+			{
+				highestVoteCount = tempVotes;
+				winner = iter;
+			}
+		}
+		prevHighestVoteCount = highestVoteCount;
+		
+		printCandidate(winner, pos);
+
+		// Prints a line every 5 positions
+		if (pos % 5 == 0)
+		{
+			std::cout << string(40, '-') << "\n";
+		}
+	}
+
+	std::cout << string(40, '_') << endl;
+}
+
+// Destructor
+CandidateList::~CandidateList()
+{ }
+
+//searchCandidate(private)
+bool CandidateList::searchCandidate(int id, 
+	list<CandidateType>::const_iterator& itr) const
+{
+	itr = find(itr, candidates.cend(), id);
+	if(itr == candidates.cend())
+	{
+		cerr << "    => ID not in the list." << endl;
+		return false;
+	}
+	return true;
+}
+
+// printHeader
+void CandidateList::printHeader() const
 {
 	std::cout << string(12, '*') << " FINAL RESULTS "
 		<< string(12, '*') << "\n\n";
@@ -124,69 +200,38 @@ void CandidateList::printFinalResults() const
 		<< right << setw(7) << "#" << endl;
 
 	std::cout << string(40, '_') << "\n\n";
-
-	auto winner = candidates.begin();
-	auto iterEnd = candidates.end();
-	int prevHighestVoteCount{ 0 };
-
-	for(winner; winner != iterEnd; ++winner)
-	{
-		const int PREV_VOTE_COUNT =
-			winner->getTotalVotes();
-	
-		if (PREV_VOTE_COUNT > prevHighestVoteCount)
-		{
-			prevHighestVoteCount = PREV_VOTE_COUNT;
-		}
-	}
-	
-	++prevHighestVoteCount;
-
-	size_t candidateCount = candidates.size();
-
-	for (size_t pos = 1; pos <= candidateCount; ++pos)
-	{
-		auto iter = candidates.begin();
-		int highestVoteCount = { 0 };
-	
-		for(iter; iter != iterEnd ; ++iter)
-		{
-			const int TEMP_VOTES =
-				iter->getTotalVotes();
-	
-			if (TEMP_VOTES > highestVoteCount - 1 &&
-				TEMP_VOTES < prevHighestVoteCount)
-			{
-				highestVoteCount = TEMP_VOTES;
-				winner = iter;
-			}
-		}
-		prevHighestVoteCount = highestVoteCount;
-		
-		
-		std::cout << left << setw(15) 
-			<< winner->getLastName()
-			<< left << setw(10) 
-			<< winner->getFirstName()
-			<< right << setw(5) << highestVoteCount
-			<< right << setw(7) << pos << endl;
-			
-		if (pos % 5 == 0)
-		{
-			std::cout << string(40, '-') << "\n";
-		}
-	}
-	std::cout << string(40, '_') << endl;
-	
 }
 
-// Destructor
-CandidateList::~CandidateList()
+// printCandidate
+void CandidateList::printCandidate(
+	std::list<CandidateType>::const_iterator& itr, int pos) const
 {
+	std::cout << left << setw(15) 
+		<< itr->getLastName()
+		<< left << setw(10) 
+		<< itr->getFirstName()
+		<< right << setw(5) << itr->getTotalVotes()
+		<< right << setw(7) << pos << endl;
 }
 
-//searchCandidate(private)
-bool CandidateList::searchCandidate(int id, list<CandidateType>::const_iterator& itr) const
+/*********************************************
+* FUNCTION ADDED FOR SELECTION #6
+*********************************************/
+
+// printNumberOfVoters
+void CandidateList::printNumberOfVoters() const
 {
-	return (find(itr, candidates.end(), id) != candidates.end());
+	std::cout << string(6, '*') << " TOTAL NUMBER OF VOTERS "
+		<< string(6, '*') << "\n\n";
+
+	auto iter = candidates.cbegin();
+	auto iterEnd = candidates.cend();
+	
+	int allTotalVotes = 0;
+	for(iter; iter != iterEnd; ++iter)
+	{
+		allTotalVotes += iter->getTotalVotes();
+	}
+	cout << "    => Number of Voters: "
+		<< allTotalVotes << endl;
 }
