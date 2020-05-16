@@ -6,10 +6,10 @@
 	Huynh, Andy (TTh 6:30)
 	Nguyen, Andrew (MW 11:10)
 
-	May 12, 2020
+	May 05, 2020
 
 	CS A250
-	Project 1 - Part D
+	Project 1
 */
 
 #include "CandidateList.h"
@@ -35,6 +35,7 @@ void CandidateList::addCandidate(const CandidateType& candidate)
 		last = last->getLink();
 	}
 
+	temp = nullptr;
 	++count;
 }
 
@@ -49,22 +50,20 @@ int CandidateList::getWinner() const
 	else
 	{
 		Node* temp = first;
-		int idStore{ 0 }, 
-			top{ 0 };
-
+		int top = 0;
+		int idStore = 0;
 		while (temp != nullptr)
 		{
-			const int VOTE_COUNT = 
+			int voteCount = 
 				temp->getCandidate().getTotalVotes();
 
-			if (VOTE_COUNT > top)
+			if (voteCount > top)
 			{
-				top = VOTE_COUNT;
+				top = voteCount;
 				idStore = temp->getCandidate().getID();
 			}
 			temp = temp->getLink();
 		}
-
 		return idStore;
 	}
 }
@@ -160,15 +159,14 @@ void CandidateList::printFinalResults() const
 
 		Node* winner = first;
 		int prevHighestVoteCount = 0;
-
 		while (winner != nullptr)
 		{
-			const int PREV_VOTE_COUNT =
+			int prevVoteCount =
 				winner->getCandidate().getTotalVotes();
 		
-			if (PREV_VOTE_COUNT > prevHighestVoteCount)
+			if (prevVoteCount > prevHighestVoteCount)
 			{
-				prevHighestVoteCount = PREV_VOTE_COUNT;
+				prevHighestVoteCount = prevVoteCount;
 			}
 			winner = winner->getLink();
 		}
@@ -182,30 +180,34 @@ void CandidateList::printFinalResults() const
 		
 			while (temp != nullptr)
 			{
-				const int TEMP_VOTES =
+				int tempVotes =
 					temp->getCandidate().getTotalVotes();
 		
-				if (TEMP_VOTES > highestVoteCount - 1 &&
-					TEMP_VOTES < prevHighestVoteCount)
+				if (tempVotes > highestVoteCount &&
+					tempVotes < prevHighestVoteCount ||
+					tempVotes == prevHighestVoteCount - 1)
 				{
-					highestVoteCount = TEMP_VOTES;
+					highestVoteCount = tempVotes;
 					winner = temp;
 				}
 				temp = temp->getLink();
 			}
 			prevHighestVoteCount = highestVoteCount;
 			
-			
-			cout << left << setw(15) 
-				<< winner->getCandidate().getLastName()
-				<< left << setw(10) 
-				<< winner->getCandidate().getFirstName()
-				<< right << setw(5) << highestVoteCount
-				<< right << setw(7) << pos << endl;
-				
-			if (pos % 5 == 0)
+			if (winner != nullptr)
 			{
-				cout << string(40, '-') << "\n";
+				cout << left << setw(15) 
+					<< winner->getCandidate().getLastName()
+					<< left << setw(10) 
+					<< winner->getCandidate().getFirstName()
+					<< right << setw(5) << highestVoteCount
+					<< right << setw(7) << pos << endl;
+				
+				// Prints a line every 5 positions
+				if (pos % 5 == 0)
+				{
+					cout << string(40, '-') << "\n";
+				}
 			}
 		}
 		cout << string(40, '_') << endl;
