@@ -65,9 +65,9 @@ public:
 	void printKingdomVotes(int id, int index) const;
 	// printCandidateTotalVotes
 	void printCandidateTotalVotes(int id) const;
-
 	// printFinalResults
 	void printFinalResults() const;
+	
 	// clearList
 	void clearList();
 	// Destructor
