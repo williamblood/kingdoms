@@ -9,7 +9,7 @@
 	May 12, 2020
 
 	CS A250
-	Project 1 - Part D
+	Project 2
 */
 
 #include "InputHandler.h"
@@ -45,7 +45,8 @@ void displayMenu()
 	cout << "    3: Print a candidate's total votes" << endl;
 	cout << "    4: Print winner" << endl;
 	cout << "    5: Print final results" << endl;
-	cout << "    6: To exit" << endl;
+	cout << "    6: Print total votes of all candidates" << endl;
+	cout << "    7: To exit" << endl;
 }
 
 void processChoice(CandidateList& candidateList)
@@ -54,7 +55,7 @@ void processChoice(CandidateList& candidateList)
 	cout << "\nEnter your choice: ";
 	cin >> choice;
 
-	while (choice != 6)
+	while (choice != 7)
 	{
 		string fName, lName;
 		int kingdom = 0,
@@ -141,6 +142,15 @@ void processChoice(CandidateList& candidateList)
 				candidateList.printFinalResults();
 			break;
 
+			//Print Total Votes of All Candidates
+		case 6:
+			cout << endl;
+			if (candidateList.isEmpty())
+				cerr << "*** List is empty.\n";
+			else
+				candidateList.printNumberOfVoters();
+			break;
+
 		default:
 			cout << "\n    => Sorry. That is not a selection." << endl;
 		}
@@ -152,6 +162,6 @@ void processChoice(CandidateList& candidateList)
 		cin >> choice;
 	}
 
-	if (choice == 6)
+	if (choice == 7)
 		cout << "\n*** Thank you and have a great day!" << endl;
 }
