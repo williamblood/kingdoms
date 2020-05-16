@@ -159,7 +159,7 @@ void CandidateList::printFinalResults() const
 		cout << string(40, '_') << "\n\n";
 
 		Node* winner = first;
-		int prevHighestVoteCount{ 0 };
+		int prevHighestVoteCount = 0;
 
 		while (winner != nullptr)
 		{
@@ -178,7 +178,7 @@ void CandidateList::printFinalResults() const
 		for (int pos = 1; pos <= count; ++pos)
 		{
 			Node* temp = first;
-			int highestVoteCount = { 0 };
+			int highestVoteCount = 0;
 		
 			while (temp != nullptr)
 			{
@@ -216,7 +216,7 @@ void CandidateList::printFinalResults() const
 void CandidateList::clearList()
 {
 	Node* temp = first;
-	while (temp != last)
+	while (temp != nullptr)
 	{
 		temp = temp->getLink();
 		delete first;
@@ -254,7 +254,7 @@ bool CandidateList::searchCandidate(int id, Node*& ptr) const
 		}
 		if (ptr == nullptr)
 		{
-			cerr << "    => ID not in the list.";
+			cerr << "    => ID not in the list." << endl;
 		}
 	}
 	return false;
