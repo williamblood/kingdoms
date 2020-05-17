@@ -9,7 +9,7 @@
     May 12, 2020
 
     CS A250
-    Project 1 - Part D
+    Project 2
 */
 
 #include "CharacterType.h"

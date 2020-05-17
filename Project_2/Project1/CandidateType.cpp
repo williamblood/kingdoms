@@ -9,7 +9,7 @@
 	May 12, 2020
 
 	CS A250
-	Project 1 - Part D
+	Project 2
 */
 
 #include "CandidateType.h"
@@ -18,12 +18,6 @@ using namespace std;
 
 // Implement all functions in the SAME order
 // as listed in the interface file.
-
-//overloaded equals
-bool CandidateType::operator==(int id) const
-{
-	return (getID() == id);
-}
 
 // Default constructor
 CandidateType::CandidateType()

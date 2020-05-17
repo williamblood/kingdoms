@@ -20,14 +20,15 @@ using namespace std;
 // Same order as in class definition
 
 // friend function overloaded ==
-bool operator==(const CandidateType& obj, int id)
+bool operator==(const CandidateType& obj, int id) 
 {
 	return obj.getID() == id;
 }
 
 // constructor
 CandidateList::CandidateList()
-{ }
+{
+}
 
 // addCandidate
 void CandidateList::addCandidate(const CandidateType& candidate)
@@ -168,7 +169,30 @@ void CandidateList::printFinalResults() const
 
 // Destructor
 CandidateList::~CandidateList()
-{ }
+{
+}
+
+/*********************************************
+* FUNCTION ADDED FOR SELECTION #6
+*********************************************/
+
+// printNumberOfVoters
+void CandidateList::printNumberOfVoters() const
+{
+	std::cout << string(6, '*') << " TOTAL NUMBER OF VOTERS "
+		<< string(6, '*') << "\n\n";
+
+	auto iter = candidates.cbegin();
+	auto iterEnd = candidates.cend();
+
+	int allTotalVotes = 0;
+	for (iter; iter != iterEnd; ++iter)
+	{
+		allTotalVotes += iter->getTotalVotes();
+	}
+	cout << "    => Number of Voters: "
+		<< allTotalVotes << endl;
+}
 
 //searchCandidate(private)
 bool CandidateList::searchCandidate(int id, 
@@ -212,26 +236,4 @@ void CandidateList::printCandidate(
 		<< itr->getFirstName()
 		<< right << setw(5) << itr->getTotalVotes()
 		<< right << setw(7) << pos << endl;
-}
-
-/*********************************************
-* FUNCTION ADDED FOR SELECTION #6
-*********************************************/
-
-// printNumberOfVoters
-void CandidateList::printNumberOfVoters() const
-{
-	std::cout << string(6, '*') << " TOTAL NUMBER OF VOTERS "
-		<< string(6, '*') << "\n\n";
-
-	auto iter = candidates.cbegin();
-	auto iterEnd = candidates.cend();
-	
-	int allTotalVotes = 0;
-	for(iter; iter != iterEnd; ++iter)
-	{
-		allTotalVotes += iter->getTotalVotes();
-	}
-	cout << "    => Number of Voters: "
-		<< allTotalVotes << endl;
 }

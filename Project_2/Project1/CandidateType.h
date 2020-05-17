@@ -31,8 +31,6 @@ const std::string KINGDOMS[] = {
 class CandidateType : public CharacterType
 {
 public:
-	//overloaded equals
-	bool operator==(int) const;
 
 	// Default constructor
 	CandidateType();

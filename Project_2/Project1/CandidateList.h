@@ -51,17 +51,18 @@ public:
 	void printKingdomVotes(int id, int index) const;
 	// printCandidateTotalVotes
 	void printCandidateTotalVotes(int id) const;
+
 	// printFinalResults
 	void printFinalResults() const;
+	
+	// Destructor
+	~CandidateList();
 
 	/*********************************************
 	* FUNCTION ADDED FOR SELECTION #6
 	*********************************************/
 	// printNumberOfVoters
 	void printNumberOfVoters() const;
-
-	// Destructor
-	~CandidateList();
 
 private:
 	// searchCandidate
