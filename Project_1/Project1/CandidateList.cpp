@@ -143,20 +143,7 @@ void CandidateList::printFinalResults() const
 	}
 	else
 	{
-		cout << string(12, '*') << " FINAL RESULTS "
-			<< string(12, '*') << "\n\n";
-
-		cout << left << setw(15) << "LAST" 
-			<< left << setw(10) << "FIRST" 
-			<< right << setw(5) << "TOTAL"
-			<< right << setw(7) << "POS" << endl;
-
-		cout << left << setw(15) << "NAME"
-			<< left << setw(10) << "NAME"
-			<< right << setw(5) << "VOTES"
-			<< right << setw(7) << "#" << endl;
-
-		cout << string(40, '_') << "\n\n";
+		printHeader();
 
 		Node* winner = first;
 		int prevHighestVoteCount = 0;
@@ -197,7 +184,7 @@ void CandidateList::printFinalResults() const
 			
 			printCandidate(pos, winner);
 		}
-		cout << string(40, '_') << endl;
+		cout << string(40, '_') << endl;	// Footer delimiter
 	}
 }
 
@@ -251,20 +238,20 @@ bool CandidateList::searchCandidate(int id, Node*& ptr) const
 // printHeader
 void CandidateList::printHeader() const
 {
-	std::cout << string(12, '*') << " FINAL RESULTS "
+	cout << string(12, '*') << " FINAL RESULTS "
 		<< string(12, '*') << "\n\n";
 
-	std::cout << left << setw(15) << "LAST"
+	cout << left << setw(15) << "LAST"
 		<< left << setw(10) << "FIRST"
 		<< right << setw(5) << "TOTAL"
 		<< right << setw(7) << "POS" << endl;
 
-	std::cout << left << setw(15) << "NAME"
+	cout << left << setw(15) << "NAME"
 		<< left << setw(10) << "NAME"
 		<< right << setw(5) << "VOTES"
 		<< right << setw(7) << "#" << endl;
 
-	std::cout << string(40, '_') << "\n\n";
+	cout << string(40, '_') << "\n\n";	// Header delimiter
 }
 
 // printCandidate
