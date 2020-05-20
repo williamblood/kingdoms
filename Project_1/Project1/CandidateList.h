@@ -76,6 +76,10 @@ public:
 private:
 	// searchCandidate
 	bool searchCandidate(int id, Node*& ptr) const;
+	// printCandidate
+	void printCandidate(int pos, Node*& ptr) const;
+	// printHeader
+	void printHeader() const;
 
 	Node* first; 	// pointer to the first candidate in the list
 	Node* last;		// pointer to last candidate in the list

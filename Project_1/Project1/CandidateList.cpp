@@ -159,7 +159,7 @@ void CandidateList::printFinalResults() const
 		cout << string(40, '_') << "\n\n";
 
 		Node* winner = first;
-		int prevHighestVoteCount{ 0 };
+		int prevHighestVoteCount = 0;
 
 		while (winner != nullptr)
 		{
@@ -178,7 +178,7 @@ void CandidateList::printFinalResults() const
 		for (int pos = 1; pos <= count; ++pos)
 		{
 			Node* temp = first;
-			int highestVoteCount{ 0 };
+			int highestVoteCount = 0;
 		
 			while (temp != nullptr)
 			{
@@ -195,18 +195,7 @@ void CandidateList::printFinalResults() const
 			}
 			prevHighestVoteCount = highestVoteCount;
 			
-			
-			cout << left << setw(15) 
-				<< winner->getCandidate().getLastName()
-				<< left << setw(10) 
-				<< winner->getCandidate().getFirstName()
-				<< right << setw(5) << highestVoteCount
-				<< right << setw(7) << pos << endl;
-				
-			if (pos % 5 == 0)  // prints out dashed lines after every 5th candidate
-			{
-				cout << string(40, '-') << "\n";
-			}
+			printCandidate(pos, winner);
 		}
 		cout << string(40, '_') << endl;
 	}
@@ -233,7 +222,7 @@ CandidateList::~CandidateList()
 	clearList();
 }
 
-//searchCandidate(private)
+// searchCandidate(private)
 bool CandidateList::searchCandidate(int id, Node*& ptr) const
 {
 	if (count == 0)
@@ -257,4 +246,41 @@ bool CandidateList::searchCandidate(int id, Node*& ptr) const
 		}
 	}
 	return false;
+}
+
+// printHeader
+void CandidateList::printHeader() const
+{
+	std::cout << string(12, '*') << " FINAL RESULTS "
+		<< string(12, '*') << "\n\n";
+
+	std::cout << left << setw(15) << "LAST"
+		<< left << setw(10) << "FIRST"
+		<< right << setw(5) << "TOTAL"
+		<< right << setw(7) << "POS" << endl;
+
+	std::cout << left << setw(15) << "NAME"
+		<< left << setw(10) << "NAME"
+		<< right << setw(5) << "VOTES"
+		<< right << setw(7) << "#" << endl;
+
+	std::cout << string(40, '_') << "\n\n";
+}
+
+// printCandidate
+void CandidateList::printCandidate(int pos, Node*& ptr) const
+{
+	cout << left << setw(15)
+		<< ptr->getCandidate().getLastName()
+		<< left << setw(10)
+		<< ptr->getCandidate().getFirstName()
+		<< right << setw(5)
+		<< ptr->getCandidate().getTotalVotes()
+		<< right << setw(7)
+		<< pos << endl;
+	// Prints separator line after every 5th position
+	if (pos % 5 == 0)
+	{
+		cout << string(40, '-') << "\n";
+	}
 }

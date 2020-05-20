@@ -156,15 +156,9 @@ void CandidateList::printFinalResults() const
 		prevHighestVoteCount = highestVoteCount;
 		
 		printCandidate(winner, pos);
-
-		// Prints a line every 5 positions
-		if (pos % 5 == 0)
-		{
-			std::cout << string(40, '-') << "\n";
-		}
 	}
 
-	std::cout << string(40, '_') << endl;
+	std::cout << string(40, '_') << endl;	// Footer delimiter
 }
 
 // Destructor
@@ -236,4 +230,9 @@ void CandidateList::printCandidate(
 		<< itr->getFirstName()
 		<< right << setw(5) << itr->getTotalVotes()
 		<< right << setw(7) << pos << endl;
+	// Prints a line every 5 positions
+	if (pos % 5 == 0)
+	{
+		std::cout << string(40, '-') << "\n";
+	}
 }
