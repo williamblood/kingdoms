@@ -76,6 +76,7 @@ public:
 private:
 	// searchCandidate
 	bool searchCandidate(int id, Node*& ptr) const;
+
 	// printCandidate
 	void printCandidate(int pos, Node*& ptr) const;
 	// printHeader

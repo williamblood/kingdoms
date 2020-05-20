@@ -49,8 +49,8 @@ int CandidateList::getWinner() const
 	else
 	{
 		Node* temp = first;
-		int idStore{ 0 }, 
-			top{ 0 };
+		int idStore = 0, 
+			top = 0;
 
 		while (temp != nullptr)
 		{
@@ -263,9 +263,9 @@ void CandidateList::printCandidate(int pos, Node*& ptr) const
 		<< ptr->getCandidate().getFirstName()
 		<< right << setw(5)
 		<< ptr->getCandidate().getTotalVotes()
-		<< right << setw(7)
-		<< pos << endl;
-	// Prints separator line after every 5th position
+		<< right << setw(7) << pos << endl;
+
+	// Prints dashed separator line after every 5th position
 	if (pos % 5 == 0)
 	{
 		cout << string(40, '-') << "\n";
