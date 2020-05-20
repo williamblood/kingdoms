@@ -9,7 +9,7 @@
 	May 12, 2020
 
 	CS A250
-	Project 2
+	Project 1 - Part D
 */
 
 #ifndef CANDIDATETYPE_H
@@ -31,7 +31,6 @@ const std::string KINGDOMS[] = {
 class CandidateType : public CharacterType
 {
 public:
-
 	// Default constructor
 	CandidateType();
 	// Copy constructor

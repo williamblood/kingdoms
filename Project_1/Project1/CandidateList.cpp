@@ -9,7 +9,7 @@
 	May 12, 2020
 
 	CS A250
-	Project 2
+	Project 1 - Part D
 */
 
 #include "CandidateList.h"
@@ -19,86 +19,106 @@ using namespace std;
 // Function declarations
 // Same order as in class definition
 
-// friend function overloaded ==
-bool operator==(const CandidateType& obj, int id) 
-{
-	return obj.getID() == id;
-}
-
-// constructor
-CandidateList::CandidateList()
-{
-}
-
 // addCandidate
 void CandidateList::addCandidate(const CandidateType& candidate)
 {
-	candidates.push_back(candidate); 
+	Node* temp = new Node(candidate, nullptr);
+
+	if (count == 0)
+	{
+		last = temp;
+		first = temp;
+	}
+	else if (count > 0)
+	{
+		last->setLink(temp);
+		last = last->getLink();
+	}
+
+	++count;
 }
 
 // getWinner
 int CandidateList::getWinner() const
 {
-	auto iter = candidates.cbegin();
-	auto iterEnd = candidates.cend();
-	
-	int idStore = 0;	
-	int	top = 0;		
-						
-	for (iter; iter != iterEnd; ++iter)
+	if (count == 0)
 	{
-		if (iter->getTotalVotes() > top)
-		{
-			top = iter->getTotalVotes();
-			idStore = iter->getID();
-		}
+		cerr << "    => List is empty." << endl;
+		return 0;
 	}
-	return idStore;	
+	else
+	{
+		Node* temp = first;
+		int idStore{ 0 }, 
+			top{ 0 };
+
+		while (temp != nullptr)
+		{
+			int voteCount = 
+				temp->getCandidate().getTotalVotes();
+
+			if (voteCount > top)
+			{
+				top = voteCount;
+				idStore = temp->getCandidate().getID();
+			}
+			temp = temp->getLink();
+		}
+
+		return idStore;
+	}
 }
 
 // isEmpty
 bool CandidateList::isEmpty() const
 {
-	return candidates.empty(); 
+	return (count == 0);
 }
 
 // searchCandidate(public)
 bool CandidateList::searchCandidate(int id) const
 {
-	auto iter = candidates.cbegin();
-	return searchCandidate(id, iter); 
+	Node* temp = nullptr;
+	return searchCandidate(id, temp);
 }
 
 // printCandidateName
 void CandidateList::printCandidateName(int id) const
 {
-	auto iter = candidates.cbegin();
-	if (searchCandidate(id, iter))
+	Node* temp = nullptr;
+	if (searchCandidate(id, temp))
 	{
-		iter->printName();
+		temp->getCandidate().printName();
 	}
 }
 
 // printAllCandidates
 void CandidateList::printAllCandidates() const
 {
-	auto iter = candidates.cbegin();
-	auto iterEnd = candidates.end();
-	for(iter; iter != iterEnd; ++iter)
+	if (count == 0)
 	{
-		iter->printCandidateInfo();
-		std::cout << endl;
+		cerr << "    => List is empty." << endl;
+	}
+	else
+	{
+		Node* temp = first;
+		while (temp != nullptr)
+		{
+			temp->getCandidate().printCandidateInfo();
+			cout << endl;
+			temp = temp->getLink();
+		}
 	}
 }
 
 // printKingdomVotes
 void CandidateList::printKingdomVotes(int id, int index) const
 {
-	auto iter = candidates.cbegin();
-	if (searchCandidate(id, iter))
+	Node* temp = nullptr;
+	if (searchCandidate(id, temp))
 	{
-		std::cout << "    *" << right << setw(3)
-			<< iter->getVotesByKingdom(index)
+		cout << "    *" << right << setw(3)
+			<< temp->getCandidate().getVotesByKingdom(index)
 			<< "( => )" << KINGDOMS[index] << endl;
 	}
 }
@@ -106,134 +126,135 @@ void CandidateList::printKingdomVotes(int id, int index) const
 // printCandidateTotalVotes
 void CandidateList::printCandidateTotalVotes(int id) const
 {
-	auto iter = candidates.cbegin();
-	if (searchCandidate(id, iter))
+	Node* temp = nullptr;
+	if (searchCandidate(id, temp))
 	{			
-		std::cout << "    => Total votes: "
-			<< iter->getTotalVotes() << endl;
+		cout << "    => Total votes: "
+			<< temp->getCandidate().getTotalVotes() << endl;
 	}
 }
 
 // printFinalResults
 void CandidateList::printFinalResults() const
 {
-	printHeader();
-
-	auto winner = candidates.cbegin();
-	auto iterEnd = candidates.cend();
-	int prevHighestVoteCount = 0;
-
-	for(winner; winner != iterEnd; ++winner)
+	if (first == nullptr)
 	{
-		int prevVoteCount = winner->getTotalVotes();
-	
-		if (prevVoteCount > prevHighestVoteCount)
-		{
-			prevHighestVoteCount = prevVoteCount;
-		}
+		cerr << "    => List is empty." << endl;
 	}
-	
-	++prevHighestVoteCount;
-
-	int candidateCount = static_cast<int>(candidates.size());
-
-	for (int pos = 1; pos <= candidateCount; ++pos)
+	else
 	{
-		auto iter = candidates.cbegin();
-		int highestVoteCount = 0;
-	
-		for(iter; iter != iterEnd ; ++iter)
+		cout << string(12, '*') << " FINAL RESULTS "
+			<< string(12, '*') << "\n\n";
+
+		cout << left << setw(15) << "LAST" 
+			<< left << setw(10) << "FIRST" 
+			<< right << setw(5) << "TOTAL"
+			<< right << setw(7) << "POS" << endl;
+
+		cout << left << setw(15) << "NAME"
+			<< left << setw(10) << "NAME"
+			<< right << setw(5) << "VOTES"
+			<< right << setw(7) << "#" << endl;
+
+		cout << string(40, '_') << "\n\n";
+
+		Node* winner = first;
+		int prevHighestVoteCount{ 0 };
+
+		while (winner != nullptr)
 		{
-			int tempVotes = iter->getTotalVotes();
-	
-			if (tempVotes > highestVoteCount - 1 &&
-				tempVotes < prevHighestVoteCount)
+			int prevVoteCount =
+				winner->getCandidate().getTotalVotes();
+		
+			if (prevVoteCount > prevHighestVoteCount)
 			{
-				highestVoteCount = tempVotes;
-				winner = iter;
+				prevHighestVoteCount = prevVoteCount;
+			}
+			winner = winner->getLink();
+		}
+		
+		++prevHighestVoteCount;
+		
+		for (int pos = 1; pos <= count; ++pos)
+		{
+			Node* temp = first;
+			int highestVoteCount{ 0 };
+		
+			while (temp != nullptr)
+			{
+				int tempVotes =
+					temp->getCandidate().getTotalVotes();
+				
+				if (tempVotes > highestVoteCount - 1 &&
+					tempVotes < prevHighestVoteCount)
+				{
+					highestVoteCount = tempVotes;
+					winner = temp;
+				}
+				temp = temp->getLink();
+			}
+			prevHighestVoteCount = highestVoteCount;
+			
+			
+			cout << left << setw(15) 
+				<< winner->getCandidate().getLastName()
+				<< left << setw(10) 
+				<< winner->getCandidate().getFirstName()
+				<< right << setw(5) << highestVoteCount
+				<< right << setw(7) << pos << endl;
+				
+			if (pos % 5 == 0)  // prints out dashed lines after every 5th candidate
+			{
+				cout << string(40, '-') << "\n";
 			}
 		}
-		prevHighestVoteCount = highestVoteCount;
-		
-		printCandidate(winner, pos);
-
-		// Prints a line every 5 positions
-		if (pos % 5 == 0)
-		{
-			std::cout << string(40, '-') << "\n";
-		}
+		cout << string(40, '_') << endl;
 	}
+}
 
-	std::cout << string(40, '_') << endl;
+// clearList
+void CandidateList::clearList()
+{
+	Node* temp = first;
+	while (first != nullptr)
+	{
+		first = first->getLink();
+		delete temp;
+		temp = first;
+	}
+	count = 0;
+	first = nullptr;
+	last = nullptr;
 }
 
 // Destructor
 CandidateList::~CandidateList()
 {
-}
-
-/*********************************************
-* FUNCTION ADDED FOR SELECTION #6
-*********************************************/
-
-// printNumberOfVoters
-void CandidateList::printNumberOfVoters() const
-{
-	std::cout << string(6, '*') << " TOTAL NUMBER OF VOTERS "
-		<< string(6, '*') << "\n\n";
-
-	auto iter = candidates.cbegin();
-	auto iterEnd = candidates.cend();
-
-	int allTotalVotes = 0;
-	for (iter; iter != iterEnd; ++iter)
-	{
-		allTotalVotes += iter->getTotalVotes();
-	}
-	cout << "    => Number of Voters: "
-		<< allTotalVotes << endl;
+	clearList();
 }
 
 //searchCandidate(private)
-bool CandidateList::searchCandidate(int id, 
-	list<CandidateType>::const_iterator& itr) const
+bool CandidateList::searchCandidate(int id, Node*& ptr) const
 {
-	itr = find(itr, candidates.cend(), id);
-	if(itr == candidates.cend())
+	if (count == 0)
 	{
-		cerr << "    => ID not in the list." << endl;
-		return false;
+		cerr << "    => List is empty." << endl;
 	}
-	return true;
-}
-
-// printHeader
-void CandidateList::printHeader() const
-{
-	std::cout << string(12, '*') << " FINAL RESULTS "
-		<< string(12, '*') << "\n\n";
-
-	std::cout << left << setw(15) << "LAST" 
-		<< left << setw(10) << "FIRST" 
-		<< right << setw(5) << "TOTAL"
-		<< right << setw(7) << "POS" << endl;
-
-	std::cout << left << setw(15) << "NAME"
-		<< left << setw(10) << "NAME"
-		<< right << setw(5) << "VOTES"
-		<< right << setw(7) << "#" << endl;
-
-	std::cout << string(40, '_') << "\n\n";
-}
-
-// printCandidate
-void CandidateList::printCandidate(
-	std::list<CandidateType>::const_iterator& itr, int pos) const
-{
-	std::cout << left << setw(15) 
-		<< itr->getLastName()
-		<< left << setw(10) 
-		<< itr->getFirstName()
-		<< right << setw(5) << itr->getTotalVotes()
-		<< right << setw(7) << pos << endl;
+	else
+	{
+		ptr = first;
+		while (ptr != nullptr)
+		{
+			if (ptr->getCandidate().getID() == id)
+			{
+				return true;
+			}
+			ptr = ptr->getLink();
+		}
+		if (ptr == nullptr)
+		{
+			cerr << "    => ID not in the list." << endl;
+		}
+	}
+	return false;
 }

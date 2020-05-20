@@ -9,7 +9,7 @@
 	May 12, 2020
 
 	CS A250
-	Project 2
+	Project 1 - Part D
 */
 
 #include "CandidateType.h"
@@ -58,9 +58,9 @@ CandidateType& CandidateType::operator=(const CandidateType& other)
 		{
 			delete[] kingdomVotes;
 			kingdomVotes = new int[other.numOfKingdoms];
+			numOfKingdoms = other.numOfKingdoms;
 		}
 
-		numOfKingdoms = other.numOfKingdoms;
 		totalVotes = other.totalVotes;
 
 		for (int i = 0; i < numOfKingdoms; ++i)
