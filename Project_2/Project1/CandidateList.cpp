@@ -171,9 +171,9 @@ CandidateList::~CandidateList()
 *********************************************/
 
 // printNumberOfVoters
-void CandidateList::printNumberOfVoters() const
+void CandidateList::printSumTotalVotes() const
 {
-	std::cout << string(6, '*') << " TOTAL NUMBER OF VOTERS "
+	std::cout << string(6, '*') << " SUM OF EACH CANDIDATE'S TOTAL VOTES "
 		<< string(6, '*') << "\n\n";
 
 	auto iter = candidates.cbegin();
@@ -184,7 +184,7 @@ void CandidateList::printNumberOfVoters() const
 	{
 		allTotalVotes += iter->getTotalVotes();
 	}
-	cout << "    => Number of Voters: "
+	cout << "    => Sum total of votes: "
 		<< allTotalVotes << endl;
 }
 

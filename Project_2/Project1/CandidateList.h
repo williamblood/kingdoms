@@ -61,8 +61,8 @@ public:
 	/*********************************************
 	* FUNCTION ADDED FOR SELECTION #6
 	*********************************************/
-	// printNumberOfVoters
-	void printNumberOfVoters() const;
+	// printSumTotalVotes
+	void printSumTotalVotes() const;
 
 private:
 	// searchCandidate

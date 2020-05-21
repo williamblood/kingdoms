@@ -45,7 +45,7 @@ void displayMenu()
 	cout << "    3: Print a candidate's total votes" << endl;
 	cout << "    4: Print winner" << endl;
 	cout << "    5: Print final results" << endl;
-	cout << "    6: Print total votes of all candidates" << endl;
+	cout << "    6: Print sum of each candidate's total votes" << endl;
 	cout << "    7: To exit" << endl;
 }
 
@@ -148,7 +148,7 @@ void processChoice(CandidateList& candidateList)
 			if (candidateList.isEmpty())
 				cerr << "*** List is empty.\n";
 			else
-				candidateList.printNumberOfVoters();
+				candidateList.printSumTotalVotes();
 			break;
 
 		default:
