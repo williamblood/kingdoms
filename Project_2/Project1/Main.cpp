@@ -111,7 +111,7 @@ void processChoice(CandidateList& candidateList)
 			}
 			break;
 
-				// Print winner
+			// Print winner
 		case 4:
 			cout << endl; 
 			if (candidateList.isEmpty())
@@ -142,7 +142,7 @@ void processChoice(CandidateList& candidateList)
 				candidateList.printFinalResults();
 			break;
 
-			//Print Total Votes of All Candidates
+			// Print sum of each candidate's total votes
 		case 6:
 			cout << endl;
 			if (candidateList.isEmpty())
