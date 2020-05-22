@@ -45,7 +45,7 @@ void displayMenu()
 	cout << "    3: Print a candidate's total votes" << endl;
 	cout << "    4: Print winner" << endl;
 	cout << "    5: Print final results" << endl;
-	cout << "    6: Print sum of each candidate's total votes" << endl;
+	cout << "    6: Print sum of all candidate's total votes" << endl;
 	cout << "    7: To exit" << endl;
 }
 
@@ -142,7 +142,7 @@ void processChoice(CandidateList& candidateList)
 				candidateList.printFinalResults();
 			break;
 
-			// Print sum of each candidate's total votes
+			// Print sum of all candidate's total votes
 		case 6:
 			cout << endl;
 			if (candidateList.isEmpty())
